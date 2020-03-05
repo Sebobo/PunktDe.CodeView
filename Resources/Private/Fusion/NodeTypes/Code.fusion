@@ -1,17 +1,35 @@
-prototype(PunktDe.CodeView:Code) < prototype(Neos.Neos:Content) {
-    templatePath = 'resource://PunktDe.CodeView/Private/Templates/NodeTypes/Code.html'
+prototype(PunktDe.CodeView:Code) < prototype(Neos.Neos:ContentComponent) {
+    attributes = Neos.Fusion:DataStructure {
+        class = 'punktde-codeview-code'
+    }
 
-    codeAttributes = Neos.Fusion:Attributes {
-        class = Neos.Fusion:RawArray {
+    codeAttributes = Neos.Fusion:DataStructure {
+        class = Neos.Fusion:Join {
             language = ${'language-' + q(node).property('language')}
-
             showLineNumbers = 'line-numbers'
             showLineNumbers.@if.isActivated = ${q(node).property('showLineNumbers')}
+            @glue = ' '
         }
     }
 
-    preAttributes = Neos.Fusion:Attributes {
+    preAttributes = Neos.Fusion:DataStructure {
+        language = ${'language-' + q(node).property('language')}
         data-line = ${q(node).property('highlightLines')}
         data-line.@if.isSpecified = ${q(node).property('highlightLines')}
     }
+
+    source = ${q(node).property('source') || ''}
+    source.@process.highlight = ${PunktDe.CodeView.Highlight.highlight(value, q(node).property('language'))}
+    source.@process.highlight.@if.serverSideHighlighting = ${true}
+
+    description = ${q(node).property('description')}
+
+    renderer = afx`
+        <div {...props.attributes}>
+            <pre {...props.preAttributes}><code {...props.codeAttributes}>{props.source}</code></pre>
+            <p class="code-description" @if.set={props.description}>
+                {props.description}
+            </p>
+        </div>
+    `
 }

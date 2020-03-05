@@ -16,6 +16,22 @@ prototype(Neos.Neos:Page) {
         @position = 'after site'
     }
 
+    head.stylesheets.highlightjs = Neos.Fusion:Tag {
+        tagName = 'link'
+
+        attributes {
+            rel = 'stylesheet'
+            href = Neos.Fusion:ResourceUri {
+                path = 'resource://PunktDe.CodeView/Public/Styles/Highlightjs.css'
+            }
+        }
+
+        @if.cssLoadingActivated = ${Configuration.setting('PunktDe.CodeView.loadCSS')}
+        @if.codeInstanceIsPresent = ${codeInstancesPresent}
+        @if.serverSideHighlighting = ${true}
+        @position = 'after site'
+    }
+
     body.javascripts.prism = Neos.Fusion:Tag {
         tagName = 'script'
 

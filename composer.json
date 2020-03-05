@@ -6,7 +6,8 @@
         "MIT"
     ],
     "require": {
-        "neos/neos": "^3.0 || ^4.0 || ^5.0",
+        "neos/neos": "^4.3 || ^5.0",
+        "neos/fusion-afx": "^1.4",
         "scrivo/highlight.php": "^9.18.0"
     },
     "autoload": {

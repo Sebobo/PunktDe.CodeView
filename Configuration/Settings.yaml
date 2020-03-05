@@ -8,3 +8,6 @@ Neos:
     fusion:
       autoInclude:
         PunktDe.CodeView: true
+  Fusion:
+    defaultContext:
+      'PunktDe.CodeView.Highlight': 'PunktDe\CodeView\Eel\Helper\HighlightHelper'
